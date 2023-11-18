@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Clipboard, ToastAndroid } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { Clipboard } from '@react-native-clipboard/clipboard';
 
 const AttendancePreview = ({ route }) => {
     const { attendanceList } = route.params;
@@ -13,17 +14,21 @@ const AttendancePreview = ({ route }) => {
 
         let textToCopy = 'CSE A Attendance:\n\n';
 
+        textToCopy += 'Regular Students Present:\n';
         if (regularEntries.length > 0) {
-            textToCopy += 'Regular Students Present:\n';
             textToCopy += regularEntries.map(student => student.rollNumber.slice(-3)).join('\n');
-            textToCopy += '\n\n';
+        } else {
+            textToCopy += '-';
         }
+        textToCopy += '\n\n';
 
+        textToCopy += 'Lateral Entries Present:\n';
         if (lateralEntries.length > 0) {
-            textToCopy += 'Lateral Entries Present:\n';
             textToCopy += lateralEntries.map(student => student.rollNumber.slice(-3)).join('\n');
-            textToCopy += '\n\n';
+        } else {
+            textToCopy += '-';
         }
+        textToCopy += '\n\n';
 
         Clipboard.setString(textToCopy);
     };
